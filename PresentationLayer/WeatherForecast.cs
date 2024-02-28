@@ -1,4 +1,4 @@
-namespace Project
+namespace PresentationLayer
 {
     public class WeatherForecast
     {
