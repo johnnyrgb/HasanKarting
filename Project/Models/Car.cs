@@ -4,7 +4,7 @@ namespace Project.Models
 {
     public partial class Car
     {
-        public int CarId { get; set; }
+        public int CarId { get; set; } // Id
         public string Model { get; set; } // модель
         public string Manufacturer { get; set; } // производитель
         public int Power { get; set; } // мощность (Вт или л.с.?)
