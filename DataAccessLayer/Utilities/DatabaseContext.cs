@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccessLayer
+namespace DataAccessLayer.Utilities
 {
     public class DatabaseContext : DbContext
     {
@@ -27,7 +27,7 @@ namespace DataAccessLayer
         #region FluentAPI Configuration
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(this.connectionString);
+            optionsBuilder.UseNpgsql(connectionString);
         }
         public class CarConfiguration : IEntityTypeConfiguration<Car>
         {

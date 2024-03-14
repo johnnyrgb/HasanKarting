@@ -25,6 +25,5 @@ namespace DataAccessLayer.Entities
         public string Username { get; set; }
         public Role Role { get; set; }
         public virtual ICollection<Protocol> Protocols { get; set; }
-        //test 2
     }
 }
