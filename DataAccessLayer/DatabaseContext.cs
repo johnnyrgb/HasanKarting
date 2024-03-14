@@ -11,6 +11,7 @@ namespace DataAccessLayer
 {
     public class DatabaseContext : DbContext
     {
+        #region Fields
         private string connectionString;
 
         public DatabaseContext(string connectionString) : base()
@@ -22,8 +23,8 @@ namespace DataAccessLayer
         public DbSet<Protocol> Protocols { get; set; }
         public DbSet<Race> Races { get; set; }
         public DbSet<Car> Cars { get; set; }
-
-        #region Configuration
+        #endregion
+        #region FluentAPI Configuration
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql(this.connectionString);
@@ -42,6 +43,10 @@ namespace DataAccessLayer
                 builder.Property(c => c.Power).IsRequired();
                 builder.Property(c => c.Mileage).IsRequired();
                 builder.Property(c => c.Weight).IsRequired();
+
+                builder.HasMany(c => c.Protocols)
+                       .WithOne()
+                       .IsRequired();
             }
         }
         public class UserConfiguration : IEntityTypeConfiguration<User>
@@ -58,6 +63,11 @@ namespace DataAccessLayer
                 builder.Property(u => u.Email).IsRequired();
                 builder.Property(u => u.Password).IsRequired();
                 builder.Property(u => u.Username).IsRequired();
+                builder.Property(u => u.Role).IsRequired();
+
+                builder.HasMany(u => u.Protocols)
+                       .WithOne()
+                       .IsRequired();
             }
         }
 
@@ -65,33 +75,51 @@ namespace DataAccessLayer
         {
             public void Configure(EntityTypeBuilder<Race> builder)
             {
-                // Первичный ключ
+                // Первичный
                 builder.HasKey(r => r.Id);
-
-                // Внешний ключ
-                builder.HasOne(r => r.Protocol)
-                    .WithMany()
-                    .HasForeignKey(r => r.ProtocolId)
-                    .IsRequired();
 
                 // Все поля не nullable
                 builder.Property(r => r.Id).IsRequired();
                 builder.Property(r => r.Date).IsRequired();
                 builder.Property(r => r.Status).IsRequired();
-                builder.Property(r => r.ProtocolId).IsRequired();
+
+                builder.HasMany(r => r.Protocols)
+                       .WithOne()
+                       .IsRequired();
+            }
+        }
+        public class ProtocolConfiguration : IEntityTypeConfiguration<Protocol>
+        {
+            public void Configure(EntityTypeBuilder<Protocol> builder)
+            {
+                // Составной первичный ключ
+                builder.HasKey(p => new { p.RaceId, p.UserId, p.CarId });
+
+                // Внешние ключи
+                builder.HasOne(p => p.Race)
+                       .WithMany(r => r.Protocols)
+                       .HasForeignKey(p => p.RaceId)
+                       .IsRequired();
+
+                builder.HasOne(p => p.User)
+                       .WithMany(u => u.Protocols)
+                       .HasForeignKey(p => p.UserId)
+                       .IsRequired();
+
+                builder.HasOne(p => p.Car)
+                       .WithMany(c => c.Protocols)
+                       .HasForeignKey(p => p.CarId)
+                       .IsRequired();
+
+                // CompletionTime - nullable
+                builder.Property(p => p.CompletionTime).IsRequired(false);
             }
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Protocol>()
-            .HasKey(p => new { p.RaceId, p.RacerId, p.CarId });
-            modelBuilder.ApplyConfiguration(new CarConfiguration());
-            modelBuilder.ApplyConfiguration(new CarConfiguration());
-            modelBuilder.ApplyConfiguration(new CarConfiguration());
-            modelBuilder.ApplyConfiguration(new CarConfiguration());
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(IEntityTypeConfiguration<>).Assembly);
         }
-
         #endregion
-
     }
 }

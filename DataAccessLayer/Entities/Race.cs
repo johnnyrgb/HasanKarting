@@ -14,11 +14,14 @@ namespace DataAccessLayer.Entities
     }
     public partial class Race
     {
-        public Race() { }
+        public Race() 
+        {
+            Protocols = new HashSet<Protocol>();
+        }
         public int Id { get; set; }
         public DateTime Date { get; set; }
         public Status Status { get; set; }
-        public ICollection<Protocol> Protocols { get; set; }
+        public virtual ICollection<Protocol> Protocols { get; set; }
         
     }
 }
