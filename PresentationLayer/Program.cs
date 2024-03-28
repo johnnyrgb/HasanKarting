@@ -14,8 +14,8 @@ var autofacBuilder = new ContainerBuilder();
 autofacBuilder.RegisterModule(new RepositoryModule("Port=5432;Host=localhost;Database=postgres;Username=postgres;Password=ququshka37"));
 builder.Services.AddControllers();
 var container = autofacBuilder.Build();
-var userService = container.Resolve<IUserService>();
-
+var userService = container.Resolve<IUserService>(); // костыль
+// TODO: тут singleton или transient, убрать autofac
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
