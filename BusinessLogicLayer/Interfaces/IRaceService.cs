@@ -12,9 +12,9 @@ namespace BusinessLogicLayer.Interfaces
         // base
         Task CreateRace(RaceDTO raceDTO);
         Task<List<RaceDTO>> GetRaces();
-        Task<RaceDTO> GetRace();
-        Task Update(RaceDTO raceDTO);
-        Task Delete(int id);
+        Task<RaceDTO> GetRace(int id);
+        Task UpdateRace(RaceDTO raceDTO);
+        Task DeleteRace(int id);
 
         // custom
     }

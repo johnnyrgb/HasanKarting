@@ -9,6 +9,7 @@ namespace DataAccessLayer.Entities
     public partial class Protocol
     {
         public Protocol() { }
+        public int Id { get; set; }
         public int RaceId { get; set; }
         public int UserId { get; set; }
         public int CarId { get; set; }

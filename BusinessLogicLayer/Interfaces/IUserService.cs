@@ -12,9 +12,9 @@ namespace BusinessLogicLayer.Interfaces
         // base
         Task CreateUser(UserDTO userDTO);
         Task<List<UserDTO>> GetUsers();
-        Task<UserDTO> GetUser();
-        Task Update(UserDTO userDTO);
-        Task Delete(int id);
+        Task<UserDTO> GetUser(int id);
+        Task UpdateUser(UserDTO userDTO);
+        Task DeleteUser(int id);
 
         // custom
     }

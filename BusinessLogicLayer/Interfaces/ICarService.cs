@@ -13,8 +13,8 @@ namespace BusinessLogicLayer.Interfaces
         Task CreateCar(CarDTO carDTO);
         Task<List<CarDTO>> GetCars();
         Task<CarDTO> GetCar(int id);
-        Task Update(CarDTO carDTO);
-        Task Delete(int id);
+        Task UpdateCar(CarDTO carDTO);
+        Task DeleteCar(int id);
 
         // custom
     }

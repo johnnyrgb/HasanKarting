@@ -8,6 +8,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{C25CF948-572E-4D65-AF88-96441430AB80}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PresentationLayer", "PresentationLayer\PresentationLayer.csproj", "{52EB43FC-696E-4E8A-AD99-2EF9EA93EC2D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D657F4F5-BE12-4B6E-A093-AF56A9B69350} = {D657F4F5-BE12-4B6E-A093-AF56A9B69350}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

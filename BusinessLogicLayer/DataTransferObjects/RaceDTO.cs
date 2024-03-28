@@ -10,7 +10,7 @@ namespace BusinessLogicLayer.DataTransferObjects
     public class RaceDTO
     {
         public RaceDTO() { }
-        public RaceDTO(RaceDTO race)
+        public RaceDTO(Race race)
         {
             Id = race.Id;
             Date = race.Date;

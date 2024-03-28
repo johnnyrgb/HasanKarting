@@ -17,6 +17,8 @@ namespace DataAccessLayer.Utilities
         public DatabaseContext(string connectionString) : base()
         {
             this.connectionString = connectionString;
+            Database.EnsureDeleted();
+            Database.EnsureCreated();
         }
 
         public DbSet<User> Users { get; set; }
@@ -29,96 +31,91 @@ namespace DataAccessLayer.Utilities
         {
             optionsBuilder.UseNpgsql(connectionString);
         }
-        public class CarConfiguration : IEntityTypeConfiguration<Car>
+        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            public void Configure(EntityTypeBuilder<Car> builder)
+            //modelBuilder.ApplyConfigurationsFromAssembly(typeof(IEntityTypeConfiguration<>).Assembly);
+            modelBuilder.Entity<User>(u =>
+            {
+                u.HasKey(u => u.Id);
+
+                // Все поля не nullable
+                u.Property(u => u.Id).IsRequired();
+                u.Property(u => u.Firstname).IsRequired();
+                u.Property(u => u.Lastname).IsRequired();
+                u.Property(u => u.Email).IsRequired();
+                u.Property(u => u.Password).IsRequired();
+                u.Property(u => u.Username).IsRequired();
+                u.Property(u => u.Role).IsRequired();
+
+                u.HasMany(u => u.Protocols)
+                 .WithOne()
+                 .IsRequired();
+            });
+            modelBuilder.Entity<Car>(c =>
+            {
+                
+                // Первичный ключ
+                c.HasKey(c => c.Id);
+
+                // Все поля не nullable
+                c.Property(c => c.Id).IsRequired();
+                c.Property(c => c.Manufacturer).IsRequired();
+                c.Property(c => c.Model).IsRequired();
+                c.Property(c => c.Power).IsRequired();
+                c.Property(c => c.Mileage).IsRequired();
+                c.Property(c => c.Weight).IsRequired();
+
+                c.HasMany(c => c.Protocols)
+                 .WithOne()
+                 .IsRequired();
+                
+            });
+            modelBuilder.Entity<Race>(r =>
             {
                 // Первичный ключ
-                builder.HasKey(c => c.Id);
+                r.HasKey(r => r.Id);
 
                 // Все поля не nullable
-                builder.Property(c => c.Id).IsRequired();
-                builder.Property(c => c.Manufacturer).IsRequired();
-                builder.Property(c => c.Model).IsRequired();
-                builder.Property(c => c.Power).IsRequired();
-                builder.Property(c => c.Mileage).IsRequired();
-                builder.Property(c => c.Weight).IsRequired();
-
-                builder.HasMany(c => c.Protocols)
-                       .WithOne()
-                       .IsRequired();
-            }
-        }
-        public class UserConfiguration : IEntityTypeConfiguration<User>
-        {
-            public void Configure(EntityTypeBuilder<User> builder)
+                r.Property(r => r.Id).IsRequired();
+                r.Property(r => r.Date).IsRequired();
+                r.Property(r => r.Status).IsRequired();
+                
+                r.HasMany(r => r.Protocols)
+                 .WithOne()
+                 .IsRequired();
+            });
+            modelBuilder.Entity<Protocol>(p =>
             {
                 // Первичный ключ
-                builder.HasKey(u => u.Id);
-
-                // Все поля не nullable
-                builder.Property(u => u.Id).IsRequired();
-                builder.Property(u => u.Firstname).IsRequired();
-                builder.Property(u => u.Lastname).IsRequired();
-                builder.Property(u => u.Email).IsRequired();
-                builder.Property(u => u.Password).IsRequired();
-                builder.Property(u => u.Username).IsRequired();
-                builder.Property(u => u.Role).IsRequired();
-
-                builder.HasMany(u => u.Protocols)
-                       .WithOne()
-                       .IsRequired();
-            }
-        }
-
-        public class RaceConfiguration : IEntityTypeConfiguration<Race>
-        {
-            public void Configure(EntityTypeBuilder<Race> builder)
-            {
-                // Первичный
-                builder.HasKey(r => r.Id);
-
-                // Все поля не nullable
-                builder.Property(r => r.Id).IsRequired();
-                builder.Property(r => r.Date).IsRequired();
-                builder.Property(r => r.Status).IsRequired();
-
-                builder.HasMany(r => r.Protocols)
-                       .WithOne()
-                       .IsRequired();
-            }
-        }
-        public class ProtocolConfiguration : IEntityTypeConfiguration<Protocol>
-        {
-            public void Configure(EntityTypeBuilder<Protocol> builder)
-            {
-                // Составной первичный ключ
-                builder.HasKey(p => new { p.RaceId, p.UserId, p.CarId });
+                p.HasKey(p => p.Id);
 
                 // Внешние ключи
-                builder.HasOne(p => p.Race)
+                p.HasOne(p => p.Race)
                        .WithMany(r => r.Protocols)
                        .HasForeignKey(p => p.RaceId)
                        .IsRequired();
 
-                builder.HasOne(p => p.User)
+                p.HasOne(p => p.User)
                        .WithMany(u => u.Protocols)
                        .HasForeignKey(p => p.UserId)
                        .IsRequired();
 
-                builder.HasOne(p => p.Car)
+                p.HasOne(p => p.Car)
                        .WithMany(c => c.Protocols)
                        .HasForeignKey(p => p.CarId)
                        .IsRequired();
 
                 // CompletionTime - nullable
-                builder.Property(p => p.CompletionTime).IsRequired(false);
-            }
-        }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(IEntityTypeConfiguration<>).Assembly);
+                p.Property(p => p.CompletionTime).IsRequired(false);
+            });
+            modelBuilder.Entity<User>().HasData(
+                new User { Id = 1, Firstname = "Дядя", Lastname = "Фридрих", Email = "unclefriedrich@example.com", Password = "unclefriedrich", Username = "unclefriedrich", Role = Role.Admin },
+                new User { Id = 2, Firstname = "Серёга", Lastname = "Нулёвкин", Email = "nulyovka37@example.com", Password = "nulyovka37", Username = "nulyovka37", Role = Role.Racer },
+                new User { Id = 3, Firstname = "Валера", Lastname = "Тудасюдаевич", Email = "cudatuda@example.com", Password = "cudatuda", Username = "cudatuda", Role = Role.Racer },
+                new User { Id = 4, Firstname = "Тёма", Lastname = "Четверкин", Email = "chetyresyra@example.com", Password = "chetyresyra", Username = "chetyresyra", Role = Role.Racer },
+                new User { Id = 5, Firstname = "Рататуй", Lastname = "Смирнов", Email = "polushuyskiy@example.com", Password = "polushuyskiy", Username = "polushuyskiy", Role = Role.Racer }
+                );
         }
         #endregion
     }

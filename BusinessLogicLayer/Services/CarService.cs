@@ -32,7 +32,7 @@ namespace BusinessLogicLayer.Services
             await dbRepository.SaveAsync();
         }
 
-        public async Task Delete(int id)
+        public async Task DeleteCar(int id)
         {
             await dbRepository.Cars.Delete(id);
             await dbRepository.SaveAsync();
@@ -49,7 +49,7 @@ namespace BusinessLogicLayer.Services
             return cars.Select(item => new CarDTO(item)).ToList();
         }
 
-        public async Task Update(CarDTO carDTO)
+        public async Task UpdateCar(CarDTO carDTO)
         {
             Car? car = await dbRepository.Cars.GetItem(carDTO.Id);
             car.Manufacturer = carDTO.Manufacturer;

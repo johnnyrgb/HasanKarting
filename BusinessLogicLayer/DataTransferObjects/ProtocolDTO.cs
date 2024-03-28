@@ -12,6 +12,7 @@ namespace BusinessLogicLayer.DataTransferObjects
         public ProtocolDTO() { }
         public ProtocolDTO(Protocol protocol)
         {
+            Id = protocol.Id;
             RaceId = protocol.RaceId;
             UserId = protocol.UserId;
             CarId = protocol.CarId;
@@ -19,6 +20,7 @@ namespace BusinessLogicLayer.DataTransferObjects
                 CompletionTime = protocol.CompletionTime;
             else CompletionTime = null;
         }
+        public int Id { get; set; }
         public int RaceId { get; set; }
         public int UserId { get; set; }
         public int CarId { get; set; }
