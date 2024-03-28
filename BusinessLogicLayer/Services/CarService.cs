@@ -19,9 +19,9 @@ namespace BusinessLogicLayer.Services
             this.dbRepository = dbRepository;
         }
 
-        public async Task CreateCar(CarDTO carDTO)
+        public void CreateCar(CarDTO carDTO)
         {
-            await dbRepository.Cars.Create(new Car()
+            dbRepository.Cars.Create(new Car()
             {
                 Manufacturer = carDTO.Manufacturer,
                 Model = carDTO.Model,
@@ -29,35 +29,35 @@ namespace BusinessLogicLayer.Services
                 Mileage = carDTO.Mileage,
                 Weight = carDTO.Weight,
             });
-            await dbRepository.SaveAsync();
+            dbRepository.Save();
         }
 
-        public async Task DeleteCar(int id)
+        public void DeleteCar(int id)
         {
-            await dbRepository.Cars.Delete(id);
-            await dbRepository.SaveAsync();
+            dbRepository.Cars.Delete(id);
+            dbRepository.Save();
         }
 
-        public async Task<CarDTO> GetCar(int id)
+        public CarDTO GetCar(int id)
         {
-            return new CarDTO(await dbRepository.Cars.GetItem(id));
+            return new CarDTO(dbRepository.Cars.GetItem(id));
         }
 
-        public async Task<List<CarDTO>> GetCars()
+        public List<CarDTO> GetCars()
         {
-            var cars = await dbRepository.Cars.GetAll();
+            var cars = dbRepository.Cars.GetAll();
             return cars.Select(item => new CarDTO(item)).ToList();
         }
 
-        public async Task UpdateCar(CarDTO carDTO)
+        public void UpdateCar(CarDTO carDTO)
         {
-            Car? car = await dbRepository.Cars.GetItem(carDTO.Id);
+            Car? car = dbRepository.Cars.GetItem(carDTO.Id);
             car.Manufacturer = carDTO.Manufacturer;
             car.Model = carDTO.Model;
             car.Power = carDTO.Power;
             car.Mileage = carDTO.Mileage;
             car.Weight = carDTO.Weight;
-            await dbRepository.SaveAsync();
+            dbRepository.Save();
         }
     }
 }

@@ -18,19 +18,19 @@ namespace DataAccessLayer.Repository
         {
             this.databaseContext = databaseContext;
         }
-        public async Task Create(Protocol item)
+        public void Create(Protocol item)
         {
-            await databaseContext.Protocols.AddAsync(item);
-            await databaseContext.SaveChangesAsync();
+            databaseContext.Protocols.Add(item);
+            databaseContext.SaveChanges();
         }
-        public async Task<IEnumerable<Protocol>> GetAll()
+        public IEnumerable<Protocol> GetAll()
         {
-            return await databaseContext.Protocols.ToListAsync();
+            return databaseContext.Protocols.ToList();
         }
 
-        public async Task<Protocol> GetItem(int id)
+        public Protocol GetItem(int id)
         {
-            Protocol? item = await databaseContext.Protocols.FindAsync(id);
+            Protocol? item = databaseContext.Protocols.Find(id);
             if (item != null)
             {
                 return item;
@@ -41,19 +41,19 @@ namespace DataAccessLayer.Repository
             }
         }
 
-        public async Task Update(Protocol item)
+        public void Update(Protocol item)
         {
             databaseContext.Protocols.Update(item);
-            await databaseContext.SaveChangesAsync();
+            databaseContext.SaveChanges();
         }
 
-        public async Task Delete(int id)
+        public void Delete(int id)
         {
-            Protocol? item = await databaseContext.Protocols.FindAsync(id);
+            Protocol? item = databaseContext.Protocols.Find(id);
             if (item != null)
             {
                 databaseContext.Protocols.Remove(item);
-                await databaseContext.SaveChangesAsync();
+                databaseContext.SaveChanges();
             }
             else
             {

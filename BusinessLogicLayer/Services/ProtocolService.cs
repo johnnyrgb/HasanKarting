@@ -20,38 +20,38 @@ namespace BusinessLogicLayer.Services
             this.dbRepository = dbRepository;
         }
 
-        public async Task CreateProtocol(ProtocolDTO protocolDTO)
+        public void CreateProtocol(ProtocolDTO protocolDTO)
         {
-            await dbRepository.Protocols.Create(new Protocol()
+            dbRepository.Protocols.Create(new Protocol()
             {
                 RaceId = protocolDTO.RaceId,
                 UserId = protocolDTO.UserId,
                 CarId = protocolDTO.CarId,
                 CompletionTime = protocolDTO.CompletionTime,
             });
-            await dbRepository.SaveAsync();
+            dbRepository.Save();
         }
 
-        public async Task DeleteProtocol(int id)
+        public void DeleteProtocol(int id)
         {
-            await dbRepository.Protocols.Delete(id);
-            await dbRepository.SaveAsync();
+            dbRepository.Protocols.Delete(id);
+            dbRepository.Save();
         }
 
-        public async Task<ProtocolDTO> GetProtocol(int id)
+        public ProtocolDTO GetProtocol(int id)
         {
-            return new ProtocolDTO(await dbRepository.Protocols.GetItem(id));
+            return new ProtocolDTO(dbRepository.Protocols.GetItem(id));
         }
 
-        public async Task<List<ProtocolDTO>> GetProtocols()
+        public List<ProtocolDTO> GetProtocols()
         {
-            var protocols = await dbRepository.Protocols.GetAll();
+            var protocols = dbRepository.Protocols.GetAll();
             return protocols.Select(item => new ProtocolDTO(item)).ToList();
         }
 
-        public async Task UpdateProtocol(ProtocolDTO protocolDTO)
+        public void UpdateProtocol(ProtocolDTO protocolDTO)
         {
-            Protocol? protocol = await dbRepository.Protocols.GetItem(protocolDTO.Id);
+            Protocol? protocol = dbRepository.Protocols.GetItem(protocolDTO.Id);
         }
     }
 }

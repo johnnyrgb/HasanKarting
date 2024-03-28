@@ -20,9 +20,9 @@ namespace BusinessLogicLayer.Services
             this.dbRepository = dbRepository;
         }
 
-        public async Task CreateUser(UserDTO userDTO)
+        public void CreateUser(UserDTO userDTO)
         {
-            await dbRepository.Users.Create(new User()
+            dbRepository.Users.Create(new User()
             {
                 Firstname = userDTO.Firstname,
                 Lastname = userDTO.Lastname,
@@ -31,29 +31,30 @@ namespace BusinessLogicLayer.Services
                 Username = userDTO.Username,
                 Role = userDTO.Role,
             });
-            await dbRepository.SaveAsync();
+            dbRepository.Save();
         }
 
-        public async Task DeleteUser(int id)
+        public void DeleteUser(int id)
         {
-            await dbRepository.Users.Delete(id);
-            await dbRepository.SaveAsync();
+            dbRepository.Users.Delete(id);
+            dbRepository.Save();
         }
 
-        public async Task<UserDTO> GetUser(int id)
+        public UserDTO GetUser(int id)
         {
-            return new UserDTO(await dbRepository.Users.GetItem(id));
+            return new UserDTO(dbRepository.Users.GetItem(id));
         }
 
-        public async Task<List<UserDTO>> GetUsers()
+        public List<UserDTO> GetUsers()
         {
-            var users = await dbRepository.Users.GetAll();
+            var users = dbRepository.Users.GetAll();
             return users.Select(item => new UserDTO(item)).ToList();
         }
 
-        public async Task UpdateUser(UserDTO userDTO)
+
+        public void UpdateUser(UserDTO userDTO)
         {
-            User? user = await dbRepository.Users.GetItem(userDTO.Id);
+            User? user = dbRepository.Users.GetItem(userDTO.Id);
             user.Firstname = userDTO.Firstname;
             user.Lastname = userDTO.Lastname;
             user.Email = userDTO.Email;

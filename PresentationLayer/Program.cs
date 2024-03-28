@@ -21,7 +21,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-var users = new ObservableCollection<UserDTO>(await userService.GetUsers());
+var users = new ObservableCollection<UserDTO>(userService.GetUsers());
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

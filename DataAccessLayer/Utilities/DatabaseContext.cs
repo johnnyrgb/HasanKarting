@@ -17,7 +17,6 @@ namespace DataAccessLayer.Utilities
         public DatabaseContext(string connectionString) : base()
         {
             this.connectionString = connectionString;
-            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 

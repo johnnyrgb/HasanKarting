@@ -18,19 +18,19 @@ namespace DataAccessLayer.Repository
         {
             this.databaseContext = databaseContext;
         }
-        public async Task Create(Race item)
+        public void Create(Race item)
         {
-            await databaseContext.Races.AddAsync(item);
-            await databaseContext.SaveChangesAsync();
+            databaseContext.Races.AddAsync(item);
+            databaseContext.SaveChangesAsync();
         }
-        public async Task<IEnumerable<Race>> GetAll()
+        public IEnumerable<Race> GetAll()
         {
-            return await databaseContext.Races.ToListAsync();
+            return databaseContext.Races.ToList();
         }
 
-        public async Task<Race> GetItem(int id)
+        public Race GetItem(int id)
         {
-            Race? item = await databaseContext.Races.FindAsync(id);
+            Race? item = databaseContext.Races.Find(id);
             if (item != null)
             {
                 return item;
@@ -41,19 +41,19 @@ namespace DataAccessLayer.Repository
             }
         }
 
-        public async Task Update(Race item)
+        public void Update(Race item)
         {
             databaseContext.Races.Update(item);
-            await databaseContext.SaveChangesAsync();
+            databaseContext.SaveChanges();
         }
 
-        public async Task Delete(int id)
+        public void Delete(int id)
         {
-            Race? item = await databaseContext.Races.FindAsync(id);
+            Race? item = databaseContext.Races.Find(id);
             if (item != null)
             {
                 databaseContext.Races.Remove(item);
-                await databaseContext.SaveChangesAsync();
+                databaseContext.SaveChanges();
             }
             else
             {

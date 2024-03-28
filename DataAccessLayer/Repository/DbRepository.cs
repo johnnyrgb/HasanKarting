@@ -63,9 +63,9 @@ namespace DataAccessLayer.Repository
 
         }
 
-        public async Task<bool> SaveAsync()
+        public bool Save()
         {
-            return await databaseContext.SaveChangesAsync() > 0;
+            return databaseContext.SaveChanges() > 0;
         }
     }
 }

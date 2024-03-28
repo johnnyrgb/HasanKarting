@@ -10,11 +10,11 @@ namespace BusinessLogicLayer.Interfaces
     public interface IRaceService
     {
         // base
-        Task CreateRace(RaceDTO raceDTO);
-        Task<List<RaceDTO>> GetRaces();
-        Task<RaceDTO> GetRace(int id);
-        Task UpdateRace(RaceDTO raceDTO);
-        Task DeleteRace(int id);
+        void CreateRace(RaceDTO raceDTO);
+        List<RaceDTO> GetRaces();
+        RaceDTO GetRace(int id);
+        void UpdateRace(RaceDTO raceDTO);
+        void DeleteRace(int id);
 
         // custom
     }

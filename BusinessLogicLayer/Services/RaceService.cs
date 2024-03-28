@@ -20,39 +20,39 @@ namespace BusinessLogicLayer.Services
             this.dbRepository = dbRepository;
         }
 
-        public async Task CreateRace(RaceDTO raceDTO)
+        public void CreateRace(RaceDTO raceDTO)
         {
-            await dbRepository.Races.Create(new Race()
+            dbRepository.Races.Create(new Race()
             {
                 Date = raceDTO.Date,
                 Status = raceDTO.Status,
             });
-            await dbRepository.SaveAsync();
+            dbRepository.Save();
         }
 
-        public async Task DeleteRace(int id)
+        public void DeleteRace(int id)
         {
-            await dbRepository.Races.Delete(id);
-            await dbRepository.SaveAsync();
+            dbRepository.Races.Delete(id);
+            dbRepository.Save();
         }
 
-        public async Task<RaceDTO> GetRace(int id)
+        public RaceDTO GetRace(int id)
         {
-            return new RaceDTO(await dbRepository.Races.GetItem(id));
+            return new RaceDTO(dbRepository.Races.GetItem(id));
         }
 
-        public async Task<List<RaceDTO>> GetRaces()
+        public List<RaceDTO> GetRaces()
         {
-            var races = await dbRepository.Races.GetAll();
+            var races = dbRepository.Races.GetAll();
             return races.Select(item => new RaceDTO(item)).ToList();
         }
 
-        public async Task UpdateRace(RaceDTO raceDTO)
+        public void UpdateRace(RaceDTO raceDTO)
         {
-            Race? race = await dbRepository.Races.GetItem(raceDTO.Id);
+            Race? race = dbRepository.Races.GetItem(raceDTO.Id);
             race.Date = raceDTO.Date;
             race.Status = raceDTO.Status;
-            await dbRepository.SaveAsync();
+            dbRepository.Save();
         }
     }
 }

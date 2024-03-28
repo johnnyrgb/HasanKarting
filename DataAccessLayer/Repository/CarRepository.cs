@@ -19,20 +19,20 @@ namespace DataAccessLayer.Repository
             this.databaseContext = databaseContext;
         }
 
-        public async Task Create(Car item)
+        public void Create(Car item)
         {
-            await databaseContext.Cars.AddAsync(item);
-            await databaseContext.SaveChangesAsync();
+            databaseContext.Cars.Add(item);
+            databaseContext.SaveChanges();
         }
 
-        public async Task<IEnumerable<Car>> GetAll()
+        public IEnumerable<Car> GetAll()
         {
-            return await databaseContext.Cars.ToListAsync();
+            return databaseContext.Cars.ToList();
         }
 
-        public async Task<Car> GetItem(int id)
+        public Car GetItem(int id)
         {
-            Car? item = await databaseContext.Cars.FindAsync(id);
+            Car? item = databaseContext.Cars.Find(id);
             if (item != null)
             {
                 return item;
@@ -43,20 +43,20 @@ namespace DataAccessLayer.Repository
             }
         }
 
-        public async Task Update(Car item)
+        public void Update(Car item)
         {
           
             databaseContext.Cars.Update(item);
-            await databaseContext.SaveChangesAsync();
+            databaseContext.SaveChanges();
         }
 
-        public async Task Delete(int id)
+        public void Delete(int id)
         {
-            Car? item = await databaseContext.Cars.FindAsync(id);
+            Car? item = databaseContext.Cars.Find(id);
             if (item != null)
             {
                 databaseContext.Cars.Remove(item);
-                await databaseContext.SaveChangesAsync();
+                databaseContext.SaveChanges();
             }
             else
             {

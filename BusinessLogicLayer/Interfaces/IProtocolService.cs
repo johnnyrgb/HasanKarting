@@ -10,11 +10,11 @@ namespace BusinessLogicLayer.Interfaces
     public interface IProtocolService
     {
         // base
-        Task CreateProtocol(ProtocolDTO protocolDTO);
-        Task<List<ProtocolDTO>> GetProtocols();
-        Task<ProtocolDTO> GetProtocol(int id);
-        Task UpdateProtocol(ProtocolDTO protocolDTO);
-        Task DeleteProtocol(int id);
+        void CreateProtocol(ProtocolDTO protocolDTO);
+        List<ProtocolDTO> GetProtocols();
+        ProtocolDTO GetProtocol(int id);
+        void UpdateProtocol(ProtocolDTO protocolDTO);
+        void DeleteProtocol(int id);
 
         // custom
     }
