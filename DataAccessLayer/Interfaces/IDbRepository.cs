@@ -15,5 +15,6 @@ namespace DataAccessLayer.Interfaces
         IRepository<Race> Races { get; }
         IRepository<Protocol> Protocols { get; }
         //IReportRepository Reports { get; }
+        public Task<bool> SaveAsync();
     }
 }

@@ -19,7 +19,5 @@ namespace DataAccessLayer.Entities
         public double Mileage { get; set; }
         public double Weight { get; set; }
         public virtual ICollection<Protocol> Protocols { get; set; }
-        //test
-        // объединение
     }
 }

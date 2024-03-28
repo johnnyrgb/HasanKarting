@@ -62,5 +62,10 @@ namespace DataAccessLayer.Repository
             }
 
         }
+
+        public async Task<bool> SaveAsync()
+        {
+            return await databaseContext.SaveChangesAsync() > 0;
+        }
     }
 }
