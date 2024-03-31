@@ -46,7 +46,7 @@ namespace DataAccessLayer.Repository
         {
             get
             {
-                if (Cars == null)
+                if (carRepository == null)
                     carRepository = new CarRepository(this.databaseContext);
                 return carRepository;
             }
