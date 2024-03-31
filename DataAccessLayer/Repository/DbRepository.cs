@@ -18,9 +18,9 @@ namespace DataAccessLayer.Repository
         private CarRepository? carRepository;
         private ProtocolRepository? protocolRepository;
 
-        public DbRepository(string connectionString)
+        public DbRepository()
         {
-            databaseContext = new DatabaseContext(connectionString);
+            databaseContext = new DatabaseContext();
         }
         public IRepository<User> Users
         {

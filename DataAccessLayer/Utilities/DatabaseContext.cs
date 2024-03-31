@@ -12,11 +12,14 @@ namespace DataAccessLayer.Utilities
     public class DatabaseContext : DbContext
     {
         #region Fields
-        private string connectionString;
+        //private string connectionString;
 
-        public DatabaseContext(string connectionString) : base()
+        public DatabaseContext()
         {
-            this.connectionString = connectionString;
+            Database.EnsureCreated();
+        }
+        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
+        {
             Database.EnsureCreated();
         }
 
@@ -28,7 +31,7 @@ namespace DataAccessLayer.Utilities
         #region FluentAPI Configuration
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(connectionString);
+            optionsBuilder.UseNpgsql("Host=localhost;Database=postgres;Username=postgres;Password=ququshka37;Persist Security Info=True");
         }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
