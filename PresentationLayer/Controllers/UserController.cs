@@ -45,6 +45,7 @@ namespace PresentationLayer.Controllers
                 Email = item.Email,
                 Password = item.Password,
                 Username = item.Username,
+                Role = item.Role,
             }));
             return CreatedAtAction("Get", new { Id = item.Id }, item);
         }
