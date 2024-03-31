@@ -6,12 +6,28 @@ using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repository;
 using DataAccessLayer.Utilities;
 using Microsoft.EntityFrameworkCore;
-using PresentationLayer.Utilities;
 using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
-var autofacBuilder = new ContainerBuilder();
+builder.Services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("HasanKarting")));
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+    builder =>
+    {
+        builder.WithOrigins("http://localhost:3000")
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+
+    });
+});
+
+builder.Services.AddControllers().AddJsonOptions(x =>
+x.JsonSerializerOptions.ReferenceHandler =
+ReferenceHandler.IgnoreCycles);
 
 // Add services to the container.
 builder.Services.AddTransient<IDbRepository, DbRepository>();
