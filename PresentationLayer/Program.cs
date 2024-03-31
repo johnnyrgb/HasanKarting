@@ -11,22 +11,7 @@ using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<DatabaseContext>(options => options.UseNpgsql("Host=localhost;Database=postgres;Username=postgres;Password=ququshka37;Persist Security Info=True"));
-
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(
-    builder =>
-    {
-        builder.WithOrigins("http://localhost:3000")
-    .AllowAnyHeader()
-    .AllowAnyMethod();
-
-    });
-});
-
-builder.Services.AddControllers().AddJsonOptions(x =>
-x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+var autofacBuilder = new ContainerBuilder();
 
 // Add services to the container.
 builder.Services.AddTransient<IDbRepository, DbRepository>();
@@ -56,5 +41,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors();
 
 app.Run();
