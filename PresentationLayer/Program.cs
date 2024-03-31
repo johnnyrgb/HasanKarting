@@ -9,6 +9,16 @@ using System.Collections.ObjectModel;
 
 var builder = WebApplication.CreateBuilder(args);
 var autofacBuilder = new ContainerBuilder();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+    builder =>
+    {
+        builder.WithOrigins("http://localhost:3000")
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
 
 // Add services to the container.
 autofacBuilder.RegisterModule(new RepositoryModule("Port=5432;Host=localhost;Database=postgres;Username=postgres;Password=ququshka37"));
@@ -34,5 +44,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors();
 
 app.Run();
